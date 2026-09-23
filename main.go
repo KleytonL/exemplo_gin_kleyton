@@ -1,6 +1,8 @@
 package main
 
 import (
+	"api-gin/handler"
+	"api-gin/store"
 	"net/http"
 	"time"
 
@@ -8,6 +10,9 @@ import (
 )
 
 func main() {
+	st := store.NewStore()
+	salaHandler := handler.NewSalaHandler(st)
+	alunoHandler := handler.NewAlunoHandler(st)
 
 	r := gin.New()
 
@@ -30,6 +35,10 @@ func main() {
 		//v1.POST("/turmas", turmaHandler.CriarTurma)
 		//v1.GET("/turmas", turmaHandler.ListarTurmas)
 		//v1.POST("/turmas/:id/alocar", turmaHandler.AlocarSala)
+		v1.POST("/salas", salaHandler.Criar)
+		v1.GET("/salas", salaHandler.Listar)
+		v1.POST("/alunos", alunoHandler.Criar)
+		v1.GET("/alunos", alunoHandler.Listar)
 	}
 
 	r.Run(":8080")
