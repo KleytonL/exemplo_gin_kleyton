@@ -39,3 +39,13 @@ func (h *AlunoHandler) Listar(c *gin.Context) {
 
 	c.JSON(http.StatusOK, alunos)
 }
+
+func (h *AlunoHandler) Buscar(c *gin.Context) {
+	matricula := c.Param("id")
+	aluno, err := h.Store.BuscarAluno(matricula)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"erro": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, aluno)
+}
